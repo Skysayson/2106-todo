@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Input
+  Input,
 } from "@nextui-org/react";
 import {
   Table,
@@ -19,7 +19,7 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import "./App.css";
-import bgImage from "./assets/todolistbg.jpg"
+import bgImage from "./assets/todolistbg.jpg";
 
 const rows = [
   {
@@ -52,13 +52,21 @@ const columns = [
 ];
 
 function App() {
-  const [todo, AddTodo] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isOpen1, onOpen: onOpen1, onOpenChange: onOpenChange1 } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure();
+  
+
+  const handleEditTodoOpen = () => {
+    setEditTodoOpen(true);
+  };
+
+  const handleEditTodoClose = () => {
+    setEditTodoOpen(false);
+  };
 
   return (
     <div className="hero-div flex-col w-screen h-screen flex justify-center items-center z-10">
-
-      <img className="flex w-screen h-screen absolute " src={bgImage}/>
+      <img className="flex w-screen h-screen absolute " src={bgImage} />
 
       <Table className="w-[50%] flex">
         <TableHeader columns={columns}>
@@ -77,6 +85,7 @@ function App() {
                         color="warning"
                         variant="solid"
                         className="mr-[2rem]"
+                        onPress={onOpen2}
                       >
                         Edit
                       </Button>
@@ -96,11 +105,11 @@ function App() {
       </Table>
 
       <form action="POST" className="CRUD mt-[2rem]">
-        <Button color="primary" variant="solid" onPress={onOpen}>
+        <Button color="primary" variant="solid" onPress={onOpen1}>
           Add todo
         </Button>
 
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal isOpen={isOpen1} onOpenChange={onOpenChange1}>
           <ModalContent>
             {(onClose) => (
               <>
@@ -111,7 +120,35 @@ function App() {
                   <Input
                     isRequired
                     type="text"
-                    label="Todo"
+                    label="Add Todo"
+                    className="w-[100%]"
+                  />
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={onClose} type="submit">
+                    Submit
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+
+        <Modal isOpen={isOpen2} onOpenChange={onOpenChange2}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Edit Todo
+                </ModalHeader>
+                <ModalBody>
+                  <Input
+                    isRequired
+                    type="text"
+                    label="Edit Todo"
                     className="w-[100%]"
                   />
                 </ModalBody>
